@@ -66,7 +66,7 @@ gaze_y_label = 'UADC002';
 pupil_s_label = 'UADC013';
 
 % Finding the index
-numlabel = numel(data_MEG.label); 
+numlabel = numel(data_MEG.label); %422
 for ii=1:numlabel
     if (strcmp(gaze_x_label,data_MEG.label{ii})==1)
         gazex_index = ii;
@@ -154,18 +154,8 @@ actual_blinks = find(blinks_dur > blink_min_samples);
 fake_blinks  = find(blinks_dur <= blink_min_samples);
 
 % Define conversion noise intervals around blinks to also fill with nan
-interval_samples = 8;
 
-plot(ET_MEG.data(1,:))
-hold on 
 
-% Fill blinks with nan
-for actual_blinks_idx=actual_blinks
-    blink_interval = blink_start(actual_blinks_idx)-interval_samples:blink_end(actual_blinks_idx)+interval_samples;
-    ET_MEG.data(1, blink_interval) = NaN;
-    ET_MEG.data(2, blink_interval) = NaN;
-    ET_MEG.data(3, blink_interval) = NaN;
-end
 
-plot(ET_MEG.data(1,:), 'r')
+
 
