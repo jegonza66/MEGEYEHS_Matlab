@@ -15,7 +15,6 @@ end
 
 ctfdir                      = session_path.meg;
 etdir                       = session_path.et;
-bh_dir                      = session_path.behav;
 matdir                      = session_path.matfiles;
 
 %% Step 0.0 Load data
@@ -254,24 +253,18 @@ b8 = find(button_diff == 8);
 button_idx = find((string({evt.type}) == 'red') | (string({evt.type}) == 'blue') | (string({evt.type}) == 'green') | (string({evt.type}) == 'yellow'));
 evt_button = evt(button_idx);
 
-button_min_time = 4.5; %s
-button_min_samples = button_min_time * hdr.Fs;
+button_min_time = 4; %s
+button_min_samples = button_min_time * 1000 / hdr.Fs;
 
-good_button_idx = find(diff([evt_button.sample]) > button_min_samples); % Esto esta mal? Tendria que ser iterativamente? Sino un mal press puede cancelar el buen press siguiente
-bad_button_idx = find(diff([evt_button.sample]) < button_min_samples);
+good_button_idx = find(diff([evt_button.sample]) > button_min_samples);
 
+evt_button = evt_button(good_button_idx);
 
-evt_button_good = evt_button(good_button_idx);
-
-
-% Load bh data
-if length(behavfilenames) > 1
-    % get behav file NOT containing 'ORIGINAL'
+types = []
+for i=:length(evt.type)
+    types(i) = evt.type(i)
 end
-
-bh_file_path = [bh_dir,filesep,subjname,filesep,behavfilenames{j}]
-bh_data = readtable(bh_file_path);
-
+foo = getfield(evt, 'type');
 %% borrador
 clc
 fs=hdr.Fs;

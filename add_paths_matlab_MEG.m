@@ -34,10 +34,10 @@ switch strtrim(whoisrunning)
     case 'joaco'
         main_path                       = '/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/';
         runpath                         = fullfile(main_path,'Matlab/');
-        code_path.fieldtrippath         = fullfile('/home/usuario/fieldtrip-20220827');
+        code_path.fieldtrippath         = fullfile(main_path, 'Toolbox/fieldtrip-20220827/');
         code_path.my_functions          = fullfile(runpath,'my_functions');
 %         code_path.mrTools               = fullfile(main_path, 'Matlab\mrTools-master\');
-%         path_exp                  = fullfile(main_path,'Psychopy_experiment\'); 
+        path_exp                  = fullfile(main_path,'Psychopy_experiment\'); 
         
         session_path.meg            = fullfile(main_path,'DATA/CTF_DATA');
         session_path.et             = fullfile(main_path,'DATA/ET_DATA');
@@ -50,7 +50,7 @@ switch strtrim(whoisrunning)
         session_path.positions_file = fullfile(main_path,'DATA','pos_items_210.mat'); %IMPORTANT: This file...
         %contains the annotated positions of all the 210 stimuli used.
         %Currently it only has information on 20-30 of them
-%         session_path.images_folder   = path_exp;
+        session_path.images_folder   = path_exp;
 
         fprintf('WARNING: Define path to psychopy experiment to access the images\n')
         
