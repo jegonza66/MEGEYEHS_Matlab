@@ -270,6 +270,7 @@ if length(behavfilenames) > 1
 end
 
 bh_file_path = [bh_dir,filesep,subjname,filesep,behavfilenames{j}]
+
 bh_data = readtable(bh_file_path);
 
 %% borrador
