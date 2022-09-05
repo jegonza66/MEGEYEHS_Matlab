@@ -19,7 +19,7 @@ bh_dir                      = session_path.behav;
 matdir                      = session_path.matfiles;
 
 %% Step 0.0 Load data
-su = 1;
+su = 2;
     subjname            = session_path.subjname{su};
     tmp = dir(fullfile(session_path.meg,subjname,'*.ds')); sessionfilenames = {tmp.name};
     tmp = dir(fullfile(session_path.behav,subjname,'*.csv')); behavfilenames = {tmp.name};
@@ -128,7 +128,7 @@ figure()
 plot(data_MEG.time{1}, data_MEG.trial{1}(gazex_index,:))
 hold on;
 plot(data_MEG.time{1}, data_MEG.trial{1}(gazey_index,:)-8)
-xlim([100,110])
+xlim([100,1100])
 title('MEG ET data')
 xlabel('time(s)')
 ylabel('gaze')
@@ -189,7 +189,7 @@ blink_min_samples = blink_min_time / 1000 * data_MEG.fsample;
 % Get blinks start/ end samples and duration
 blinks_start = find(diff(blinks) == 1);
 blinks_end = find(diff(blinks) == -1);
-blinks_dur = blink_end - blink_start;
+blinks_dur = blinks_end - blinks_start;
 
 % Get actual and fake blinks based on duration condition
 actual_blinks = find(blinks_dur > blink_min_samples);
