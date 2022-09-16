@@ -1,10 +1,10 @@
 clear all
 close all
 clc
-cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
+% cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
 
 % checks user identity and define paths according to local environment
-[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG('joaco');
+[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG();
 
 cd(runpath)
 fields = fieldnames(code_path);
@@ -19,7 +19,7 @@ bh_dir                      = session_path.behav;
 matdir                      = session_path.matfiles;
 
 %% Step 0.0 Load data
-su = 2;
+su = 1;
     subjname            = session_path.subjname{su};
     tmp = dir(fullfile(session_path.meg,subjname,'*.ds')); sessionfilenames = {tmp.name};
     tmp = dir(fullfile(session_path.behav,subjname,'*.csv')); behavfilenames = {tmp.name};
@@ -30,6 +30,17 @@ cfg.matdir      = [matdir,filesep,subjname,filesep,sessionfilenames{j}(1:end-3)]
 if ~exist(cfg.matdir,'dir')
     mkdir(cfg.matdir);
 end
+
+
+% 
+% fiff_file = 'C:/Users/joaco/OneDrive - The University of Nottingham/MEGEYEHS/Save/Preprocesed_Data/15909001/Subject_15909001.fif';
+% 
+% cfg = []
+% cfg.dataset = fiff_file;
+% data1 = ft_preprocessing(cfg);
+% ft_datatype(data1)  % returns 'raw'
+
+
 
 %%
 display('________________________________________________');
@@ -63,8 +74,8 @@ if length(sessionfilenames) > 1
     end
     
     % Concatenate to 1 variable
-    hdr = hdr_1;
-    dat = dat_1;
+    hdr         = hdr_1;
+    dat         = dat_1;
     evt         = evt_1;
     nsamples    = hdr_1.nTrials*hdr_1.nSamples; % 1st session events
     
@@ -74,7 +85,7 @@ if length(sessionfilenames) > 1
         
         dat_name = strcat( 'dat_',num2str(j));
         eval(sprintf('dat = cat(3, dat, %s);', dat_name))
-        eval(sprintf('clear(%s)',dat_name))
+        eval(sprintf('clear %s', dat_name))
         
         evt_name = strcat( 'evt_',num2str(j));
 
@@ -85,10 +96,12 @@ if length(sessionfilenames) > 1
         
         eval(sprintf('evt = cat(1, evt, %s);', evt_name))
         
-        eval(sprintf('clear(%s)',evt_name))
-        eval(sprintf('clear(%s)',hdr_name))
+        eval(sprintf('clear %s',evt_name))
+        eval(sprintf('clear %s',hdr_name))
         
     end
+    
+    clear dat_1 hdr_1 evt_1
     
     % Delete orig data
 %     hdr.orig = 'merged';
@@ -238,10 +251,10 @@ save(fullfile(session_path.preproc_data, subjname, 'ET_MEG.mat'),'ET_MEG');
 
 % Button channel name and index
 button_label = 'UPPT001';
-button_idx = find(strcmp(data_MEG.label,button_label));
+buttons_idx = find(strcmp(data_MEG.label,button_label));
 
 % Button press start and end
-button_diff = diff(data_MEG.trial{1}(button_idx,:)) - data_MEG.trial{1}(button_idx,1:end-1);
+button_diff = diff(data_MEG.trial{1}(buttons_idx,:)) - data_MEG.trial{1}(buttons_idx,1:end-1);
 
 % Get each button press start samples
 b1 = find(button_diff == 1);
@@ -251,25 +264,43 @@ b8 = find(button_diff == 8);
 
 %% 0.3 bis Define trials based on events
 
-button_idx = find((string({evt.type}) == 'red') | (string({evt.type}) == 'blue') | (string({evt.type}) == 'green') | (string({evt.type}) == 'yellow'));
-evt_button = evt(button_idx);
+% Defne time array
+dat_shape = size(dat);
+sfreq = 1/1200;
+time = 0:sfreq:dat_shape(2)*dat_shape(3)*sfreq;
 
-button_min_time = 4.5; %s
-button_min_samples = button_min_time * hdr.Fs;
+%Get events in meg data (only red blue and green)
+buttons_idx = find((string({evt.type}) == 'red') | (string({evt.type}) == 'blue') | (string({evt.type}) == 'green') | (string({evt.type}) == 'yellow'));
+evt_trial = evt(buttons_idx);
+evt_times = time([evt_trial.sample]);
+evt_buttons = string({evt_trial.type});
 
-good_button_idx = find(diff([evt_button.sample]) > button_min_samples); % Esto esta mal? Tendria que ser iterativamente? Sino un mal press puede cancelar el buen press siguiente
-bad_button_idx = find(diff([evt_button.sample]) < button_min_samples);
+%Check for first trial when first response is not green
+for i = 1:length(evt_buttons)
+    if evt_buttons(i) ~= 'green'
+        first_trial = i;
+        break;
+    end
+end
 
+% Drop events before 1st trial
+evt_times = evt_times(first_trial:end);
+evt_buttons = evt_buttons(first_trial:end);
 
-evt_button_good = evt_button(good_button_idx);
-
+% Split events into blocks by green press at begening of block
+blocks_start_end = find(evt_buttons == 'green');
+blocks_start_end = [0 blocks_start_end length(evt_buttons)]; %-1 is for the first trial 
+% Define block starting and ending trial for each block
+for i = 1:length(blocks_start_end)-1
+    block_bounds(i,:) = [blocks_start_end(i) + 1, blocks_start_end(i+1)];
+end
 
 % Load bh data
 if length(behavfilenames) > 1
     % get behav file NOT containing 'ORIGINAL'
 end
 
-bh_file_path = [bh_dir,filesep,subjname,filesep,behavfilenames{j}];
+bh_file_path = [bh_dir,filesep,subjname,filesep,behavfilenames{1}];
 
 bh_data = readtable(bh_file_path);
 
