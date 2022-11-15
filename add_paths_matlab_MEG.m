@@ -13,20 +13,21 @@ switch strtrim(whoisrunning)
     case 'laptop-5i5qsv76\joaco' % Joac Asus
         main_path                       = 'C:\Users\joaco\OneDrive - The University of Nottingham\MEGEYEHS\';
         runpath                         = fullfile(main_path, 'Matlab\');
-        code_path.fieldtrippath         = fullfile(runpath, 'Toolbox\fieldtrip-20220104\');
+        code_path.fieldtrippath         = fullfile(runpath, 'Toolbox\fieldtrip-20220827\');
         code_path.mrTools               = fullfile(runpath, 'Toolbox\mrTools-master\');
         code_path.my_functions          = fullfile(runpath,'my_functions');
-        path_exp                        = fullfile(main_path,'Psychopy_experiment\'); 
+        path_exp                  = fullfile(main_path,'Psychopy_experiment\'); 
         
-        session_path.meg            = fullfile(main_path,'DATA\CTF_DATA');
-        session_path.et             = fullfile(main_path,'DATA\ET_DATA');
-        session_path.matfiles       = fullfile(main_path,'DATA\MAT_DATA');
-        session_path.behav          = fullfile(main_path,'DATA\BH_DATA');
-        session_path.mri            = fullfile(main_path,'DATA\MRI_DATA');
-        session_path.opt            = fullfile(main_path,'DATA\OPT_DATA');
-        session_path.out            = fullfile(main_path,'OUT\Analysis_ET_Beh');
+        session_path.preproc        = fullfile(main_path,'Python\Save\Preprocessed_Data');
+        session_path.meg        = fullfile(main_path,'DATA\CTF_DATA');
+        session_path.et      = fullfile(main_path,'DATA\ET_DATA');
+        session_path.matfiles   = fullfile(main_path,'DATA\MAT_DATA');
+        session_path.behav = fullfile(main_path,'DATA\BH_DATA');
+        session_path.mri        = fullfile(main_path,'DATA\MRI_DATA');
+        session_path.opt        = fullfile(main_path,'DATA\OPT_DATA');
+        session_path.out        = fullfile(main_path,'OUT\Analysis_ET_Beh');
         session_path.preproc_data   = fullfile(main_path,'Save_Mat/Preprocesed_Data');
-        session_path.positions_file = fullfile(main_path,'DATA','pos_items_210.mat'); %IMPORTANT: This file...
+        session_path.positions_file  = fullfile(main_path,'DATA','pos_items_210.mat'); %IMPORTANT: This file...
         %contains the annotated positions of all the 210 stimuli used.
         %Currently it only has information on 20-30 of them
         session_path.images_folder   = path_exp;
@@ -59,7 +60,7 @@ switch strtrim(whoisrunning)
 end
 
 % session_path.directories = {''; ''};
-session_path.subjname = {'15909001','15912001','15910001','15950001','15911001','11535009'};
+session_path.subjname = {'15909001','15912001','15910001','15950001','15911001','11535009', '16191001'};
 % session_path.subjcode = {'15909001','15912001','15910001','15950001','15911001','11535009'};
 % session_path.sessionfilenames = {
 %     {'15909001\15909001_MatiasIson_20220530_02.ds',  '15909001\15909001_MatiasIson_20220530_03.ds',...
