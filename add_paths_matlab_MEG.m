@@ -35,11 +35,11 @@ switch strtrim(whoisrunning)
     case 'joaco'
         main_path                       = '/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/';
         runpath                         = fullfile(main_path,'Matlab/');
-        code_path.fieldtrippath         = fullfile(main_path, 'Toolbox/fieldtrip-20220827/');
+        code_path.fieldtrippath         = fullfile(runpath, 'Toolbox/fieldtrip-20220827/');
         code_path.my_functions          = fullfile(runpath,'my_functions');
-%         code_path.mrTools               = fullfile(main_path, 'Matlab\mrTools-master\');
-        path_exp                  = fullfile(main_path,'Psychopy_experiment\'); 
-        
+        path_exp                        = fullfile(main_path,'Psychopy_experiment\'); 
+           
+        session_path.preproc        = fullfile(main_path,'Python\Save\Preprocessed_Data');
         session_path.meg            = fullfile(main_path,'DATA/CTF_DATA');
         session_path.et             = fullfile(main_path,'DATA/ET_DATA');
         session_path.matfiles       = fullfile(main_path,'DATA/MAT_DATA');

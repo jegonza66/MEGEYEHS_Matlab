@@ -1,11 +1,11 @@
 clear all
 close all
 clc
-% cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
+cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
 % cd('C:\Users\joaco\OneDrive - The University of Nottingham\MEGEYEHS\Matlab')
 
 % checks user identity and define paths according to local environment
-[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG();
+[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG('joaco');
 
 cd(runpath)
 fields = fieldnames(code_path);
@@ -23,13 +23,14 @@ matdir                      = session_path.matfiles;
 %% 0 Load data
 %% Step 0.1 Define paths and data files
 su = 1;
-    subjname            = session_path.subjname{su};
-    tmp = dir(fullfile(session_path.preproc,subjname,'*meg*.fif')); preprocfilenames = {tmp.name};
-    preprocfilenames = [preprocfilenames(end), preprocfilenames(1:end-1)]
-    tmp = dir(fullfile(session_path.preproc,subjname,'*eve*.fif')); eventfilenames = {tmp.name};
-    tmp = dir(fullfile(session_path.preproc,subjname,'*eve_map.csv')); event_map_filename = {tmp.name};
-    tmp = dir(fullfile(session_path.meg,subjname,'*.ds')); sessionfilenames = {tmp.name};
-    tmp = dir(fullfile(session_path.behav,subjname,'*.csv')); behavfilenames = {tmp.name};
+subjname            = session_path.subjname{su};
+
+tmp = dir(fullfile(session_path.preproc,subjname,'*meg*.fif')); preprocfilenames = {tmp.name};
+preprocfilenames = [preprocfilenames(end), preprocfilenames(1:end-1)];
+tmp = dir(fullfile(session_path.preproc,subjname,'*eve*.fif')); eventfilenames = {tmp.name};
+tmp = dir(fullfile(session_path.preproc,subjname,'*eve_map.csv')); event_map_filename = {tmp.name};
+tmp = dir(fullfile(session_path.meg,subjname,'*.ds')); sessionfilenames = {tmp.name};
+tmp = dir(fullfile(session_path.behav,subjname,'*.csv')); behavfilenames = {tmp.name};
 
 j = 1;
 cfg = [];
