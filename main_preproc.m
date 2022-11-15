@@ -1,10 +1,10 @@
 clear all
 close all
 clc
-% cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
+cd('/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Matlab');
 
 % checks user identity and define paths according to local environment
-[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG();
+[runpath,code_path,session_path,whoisrunning]=add_paths_matlab_MEG('joaco');
 
 cd(runpath)
 fields = fieldnames(code_path);
@@ -32,14 +32,15 @@ if ~exist(cfg.matdir,'dir')
 end
 
 
-% 
-% fiff_file = 'C:/Users/joaco/OneDrive - The University of Nottingham/MEGEYEHS/Save/Preprocesed_Data/15909001/Subject_15909001.fif';
-% 
-% cfg = []
-% cfg.dataset = fiff_file;
-% data1 = ft_preprocessing(cfg);
-% ft_datatype(data1)  % returns 'raw'
 
+fiff_file = 'C:/Users/joaco/OneDrive - The University of Nottingham/MEGEYEHS/Save/Preprocesed_Data/15909001/Subject_15909001_meg.fif';
+fiff_file = '/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/Save/Preprocesed_Data/15909001/Subject_15909001_meg.fif'
+cfg = []
+cfg.dataset = fiff_file;
+data1 = ft_preprocessing(cfg);
+ft_datatype(data1)  % returns 'raw'
+sessionfilenames = 
+evt = mne_read_events(fiff_file);
 
 
 %%
