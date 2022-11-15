@@ -39,7 +39,7 @@ switch strtrim(whoisrunning)
         code_path.my_functions          = fullfile(runpath,'my_functions');
         path_exp                        = fullfile(main_path,'Psychopy_experiment\'); 
            
-        session_path.preproc        = fullfile(main_path,'Python\Save\Preprocessed_Data');
+        session_path.preproc        = fullfile(main_path,'Python/Save/Preprocessed_Data');
         session_path.meg            = fullfile(main_path,'DATA/CTF_DATA');
         session_path.et             = fullfile(main_path,'DATA/ET_DATA');
         session_path.matfiles       = fullfile(main_path,'DATA/MAT_DATA');
@@ -52,8 +52,6 @@ switch strtrim(whoisrunning)
         %contains the annotated positions of all the 210 stimuli used.
         %Currently it only has information on 20-30 of them
         session_path.images_folder   = path_exp;
-
-        fprintf('WARNING: Define path to psychopy experiment to access the images\n')
         
     otherwise
         warning(['User unknown: ' whoisrunning ' , check paths']);
