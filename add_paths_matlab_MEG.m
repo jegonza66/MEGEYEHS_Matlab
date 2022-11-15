@@ -35,7 +35,7 @@ switch strtrim(whoisrunning)
     case 'joaco'
         main_path                       = '/mnt/6a6fd40a-e256-4844-8004-0e60d95969e8/MEGEYEHS/';
         runpath                         = fullfile(main_path,'Matlab/');
-        code_path.fieldtrippath         = fullfile(runpath, 'Toolbox/fieldtrip-20220827/');
+        code_path.fieldtrippath         = fullfile(runpath, 'Toolbox/fieldtrip-20221107/');
         code_path.my_functions          = fullfile(runpath,'my_functions');
         path_exp                        = fullfile(main_path,'Psychopy_experiment\'); 
            
